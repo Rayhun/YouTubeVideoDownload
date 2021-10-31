@@ -1,6 +1,14 @@
 from pytube import YouTube
-
-input_url = input("Enter the url of the video: ")
-youtube = YouTube(input_url)
-youtube.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first().download()
-print("Download complete")
+import os
+from pathlib import Path
+link = input("Enter link here: ")
+print("Link")
+try:
+    url = YouTube(link)
+    print("downloading....")
+    video = url.streams.get_highest_resolution()
+    path_to_download_folder = str(os.path.join(Path.home(), "Downloads"))
+    video.download(path_to_download_folder)
+    print("Downloaded! :)")
+except Exception as e:
+    print(f"Error {e}")
