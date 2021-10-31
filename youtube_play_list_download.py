@@ -37,7 +37,6 @@ url = input("Enter the url of the playlist: ")
 total_page = TotalPage(url)
 count = 0
 soup = bs.BeautifulSoup(total_page.html, 'html.parser')
-print(soup.find_all('tag'))
 for link in soup.find_all('a', id='thumbnail'):
 	if count == 0:
 		count += 1
@@ -51,16 +50,14 @@ for link in soup.find_all('a', id='thumbnail'):
 		except Exception as exp:
 			print(exp)
 			continue
-count = 0
+count = 1
 for link in links:
-	print("Downloading..." + "*" * 10)
 	yt = pytube.YouTube(link)
-	print(yt.title)
-	stream = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc().first()
+	stream = yt.streams.filter(progressive=True,
+		file_extension='mp4').order_by('resolution').desc().first()
 	try:
 		stream.download(output_path=f"./Video/")
-		# printing the links downloaded
-		print("Downloaded: ", link)
+		print(f"Downloaded...... {count}")
 	except:
 		print('Some error in downloading: ', link)
 	count += 1
